@@ -21,31 +21,28 @@ print (url)
 
 
 for my_url in url:
-    try:
-        uClient = uReq(my_url)
-        page_html = uClient.read()
-        uClient.close()
+    uClient = uReq(my_url)
+    page_html = uClient.read()
+    uClient.close()
 
-        # html parsing
+    # html parsing
 
-        page_soup = soup(page_html, "html.parser")
+    page_soup = soup(page_html, "html.parser")
 
-        time = page_soup.find("time").get_text()
-        load = page_soup.find("div", {"class": "article_bodycopy"})
+    time = page_soup.find("time").get_text()
+    load = page_soup.find("div", {"class": "article_bodycopy"})
 
-        items = load.find_all("p", {"class": "no_name"})
-        text = [item.get_text() for item in items]
+    items = load.find_all("p", {"class": "no_name"})
+    text = [item.get_text() for item in items]
 
-        data = {'time': time,
-                'text': text
-                }
+    data = {'time': time,
+            'text': text
+            }
 
-        result = firebase.post('/articles/', data )
-
-
-    except:
-        pass
+    result = firebase.post('/articles/', data )
 
 
-#result2 = firebase.get('/articles/', '')
-#print(result2)
+
+
+
+
